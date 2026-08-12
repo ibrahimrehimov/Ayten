@@ -92,67 +92,6 @@
       pointer-events: none;
     }
 
-    .firework-message {
-      position: fixed;
-      left: 50%;
-      top: 12%;
-      z-index: 8;
-      width: min(760px, calc(100vw - 28px));
-      padding: clamp(8px, 1.5vw, 14px) clamp(12px, 2.4vw, 20px);
-      border: 1px solid rgba(255, 255, 255, .74);
-      border-radius: 8px;
-      color: #fff8cf;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(255, 209, 102, .38), transparent 34%),
-        linear-gradient(135deg, rgba(34, 24, 36, .78), rgba(92, 49, 67, .66));
-      box-shadow:
-        0 18px 46px rgba(34, 24, 36, .24),
-        inset 0 1px 0 rgba(255, 255, 255, .36);
-      backdrop-filter: blur(12px);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(15px, 2.4vw, 24px);
-      font-weight: 900;
-      line-height: 1.34;
-      letter-spacing: 0;
-      text-align: center;
-      text-shadow:
-        0 0 12px rgba(255, 209, 102, .9),
-        0 0 32px rgba(244, 109, 143, .78),
-        0 10px 28px rgba(34, 24, 36, .24);
-      opacity: 0;
-      pointer-events: none;
-      transform: translateX(-50%) translateY(-16px);
-      transition: opacity .28s ease, transform .28s ease;
-    }
-
-    .firework-message::before {
-      content: "";
-      position: absolute;
-      inset: -7px;
-      z-index: -1;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(255, 209, 102, .6), rgba(244, 109, 143, .28), rgba(91, 141, 239, .34));
-      filter: blur(10px);
-      opacity: .82;
-    }
-
-    .firework-message.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .firework-message span {
-      display: inline-block;
-      opacity: 0;
-      transform: translateY(18px) scale(.82);
-      transition: opacity .22s ease, transform .32s cubic-bezier(.16, 1, .3, 1);
-    }
-
-    .firework-message span.visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
     .shell {
       width: min(1060px, 100%);
       display: grid;
@@ -503,7 +442,8 @@
       transform-style: preserve-3d;
       pointer-events: none;
       filter: drop-shadow(0 22px 24px rgba(47, 27, 52, .18));
-      transition: transform 1.45s cubic-bezier(.19, 1, .22, 1), opacity .7s ease 1.05s;
+      transition: transform 1.85s cubic-bezier(.19, 1, .22, 1), opacity .82s ease 1.32s;
+      will-change: transform, opacity;
     }
 
     body.gift-open .gift-box {
@@ -536,10 +476,11 @@
       transform-origin: 50% 100%;
       animation: lidIdle 3.8s ease-in-out infinite;
       transition: transform 1.35s cubic-bezier(.2, .9, .18, 1.08);
+      will-change: transform;
     }
 
     body.gift-open .gift-lid {
-      animation: lidOpen 1.35s cubic-bezier(.2, .9, .18, 1.08) both;
+      animation: lidOpen 1.85s cubic-bezier(.2, .9, .18, 1.08) both;
     }
 
     .gift-bow {
@@ -585,7 +526,7 @@
     }
 
     body.gift-open .gift-bow {
-      animation: bowFly 1.35s cubic-bezier(.19, 1, .22, 1) both;
+      animation: bowFly 1.85s cubic-bezier(.19, 1, .22, 1) both;
     }
 
     .plate {
@@ -1113,7 +1054,7 @@
     .candle.blown .flame {
       opacity: 0;
       transform: translateX(-50%) translateY(12px) rotate(-42deg) scale(.4);
-      transition: opacity .3s ease, transform .3s ease;
+      transition: opacity .78s ease, transform .88s cubic-bezier(.16, 1, .3, 1);
     }
 
     .candle.blown::after {
@@ -1126,7 +1067,7 @@
       border-radius: 50%;
       border-left: 3px solid rgba(105, 93, 102, .35);
       transform: translateX(-50%);
-      animation: smokeRise 1.9s ease-out infinite;
+      animation: smokeRise 2.45s ease-out infinite;
     }
 
     .breath-wave {
@@ -1168,7 +1109,7 @@
     }
 
     body.candles-blown .breath-wave {
-      animation: breathSweep 1.35s ease-out both;
+      animation: breathSweep 2.05s ease-out both;
     }
 
     .wish {
@@ -1673,6 +1614,19 @@
         top: 31%;
       }
 
+      .gift-box {
+        filter: drop-shadow(0 12px 14px rgba(47, 27, 52, .14));
+        transition: transform 1.75s cubic-bezier(.16, 1, .3, 1), opacity .74s ease 1.18s;
+      }
+
+      body.gift-open .gift-lid {
+        animation-duration: 1.75s;
+      }
+
+      body.gift-open .gift-bow {
+        animation-duration: 1.75s;
+      }
+
       .wish {
         top: 79%;
       }
@@ -1691,14 +1645,6 @@
       .open-action,
       .wish-action {
         justify-content: center;
-      }
-
-      .firework-message {
-        top: 16px;
-        width: calc(100vw - 22px);
-        font-size: 14px;
-        line-height: 1.34;
-        padding: 9px 12px;
       }
 
       .cake {
@@ -1724,7 +1670,6 @@
 <body>
   <canvas id="confetti" aria-hidden="true"></canvas>
   <audio id="birthdaySong" src="birthday-song.mpeg" preload="auto"></audio>
-  <div class="firework-message" id="fireworkMessage" aria-hidden="true"></div>
   <main class="page">
     <section class="shell" aria-label="Ad günü təbriki">
       <div class="greeting">
@@ -1826,13 +1771,12 @@
     const ctx = canvas.getContext("2d");
     const root = document.documentElement;
     const wish = document.querySelector(".wish");
-    const fireworkMessage = document.getElementById("fireworkMessage");
     const birthdaySong = document.getElementById("birthdaySong");
     const candles = [...document.querySelectorAll(".candle")];
     const openGiftButton = document.getElementById("openGiftButton");
     const candlesButton = document.getElementById("candlesButton");
     const colors = ["#f46d8f", "#ff8a5b", "#ffd166", "#56c7a4", "#5b8def", "#8e70d6"];
-    const celebrationText = "Tutduğun bütün arzuların bir-bir gerçəyə çevrilsin. Həyatın hər yeni günü sənə sevinc, uğur, sağlamlıq və gözəl xatirələr gətirsin. Arzuların ulduzlar kimi parlasın, yolun həmişə işıqlı olsun. Üzündən təbəssüm, qəlbindən isə xoşbəxtlik heç vaxt əskik olmasın. Ad günün mübarək! ✨🎂🎉🌟";
+    const fireworkColors = ["#fff8cf", "#ffd166", "#ff5f94", "#7cf7d4", "#8fb7ff", "#c9a4ff"];
     let particles = [];
     let messageTimers = [];
     let width = 0;
@@ -1840,6 +1784,7 @@
     let lastTime = performance.now();
     let animationFrameId = 0;
     let songUnlocked = false;
+    let flashTimer = 0;
 
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
@@ -1877,6 +1822,110 @@
       };
     }
 
+    function flashSky() {
+      document.body.classList.add("firework-flash");
+      window.clearTimeout(flashTimer);
+      flashTimer = window.setTimeout(() => document.body.classList.remove("firework-flash"), 700);
+    }
+
+    function makeRocket(startX, targetX, targetY) {
+      return {
+        type: "rocket",
+        x: startX,
+        y: height + 16,
+        previousX: startX,
+        previousY: height + 16,
+        targetX,
+        targetY,
+        size: 3.2,
+        color: fireworkColors[Math.floor(Math.random() * fireworkColors.length)],
+        velocityX: (targetX - startX) / 58,
+        velocityY: -(7.2 + Math.random() * 1.8),
+        rotation: 0,
+        spin: 0,
+        life: 1,
+        decay: .0012
+      };
+    }
+
+    function makeFireworkSpark(x, y, angle, power, color, ring = false) {
+      return {
+        type: "spark",
+        x,
+        y,
+        previousX: x,
+        previousY: y,
+        size: ring ? 2.4 + Math.random() * 1.4 : 1.7 + Math.random() * 1.2,
+        color,
+        velocityX: Math.cos(angle) * power,
+        velocityY: Math.sin(angle) * power,
+        rotation: 0,
+        spin: 0,
+        life: ring ? 1.05 + Math.random() * .2 : .68 + Math.random() * .18,
+        decay: ring ? .0058 : .008,
+        gravity: ring ? .018 : .014
+      };
+    }
+
+    function makeEmber(x, y, color) {
+      return {
+        type: "ember",
+        x,
+        y,
+        previousX: x,
+        previousY: y,
+        size: .9 + Math.random() * 1.5,
+        color,
+        velocityX: (Math.random() - .5) * 3,
+        velocityY: (Math.random() - .5) * 2.4,
+        rotation: Math.random() * Math.PI,
+        spin: (Math.random() - .5) * .16,
+        life: .5 + Math.random() * .22,
+        decay: .010,
+        gravity: .02
+      };
+    }
+
+    function explodeFirework(x, y, color, target = particles) {
+      const sparkCount = 54;
+      for (let index = 0; index < sparkCount; index += 1) {
+        const angle = (Math.PI * 2 * index) / sparkCount + (Math.random() - .5) * .16;
+        const power = 3.5 + Math.random() * 2.9;
+        target.push(makeFireworkSpark(x, y, angle, power, color, true));
+      }
+      for (let index = 0; index < 18; index += 1) {
+        const angle = Math.random() * Math.PI * 2;
+        const power = 1.4 + Math.random() * 2.2;
+        target.push(makeFireworkSpark(x, y, angle, power, "#fff8cf", false));
+      }
+      for (let index = 0; index < 22; index += 1) {
+        target.push(makeEmber(x, y, color));
+      }
+      flashSky();
+      requestDraw();
+    }
+
+    function launchFirework(position = Math.random()) {
+      const startX = width * (.16 + position * .68);
+      const targetX = width * (.18 + Math.random() * .64);
+      const targetY = height * (.12 + Math.random() * .32);
+      particles.push(makeRocket(startX, targetX, targetY));
+      requestDraw();
+    }
+
+    function startLightFireworks(duration = 5600) {
+      const launch = () => {
+        launchFirework(Math.random());
+      };
+      launchFirework(.18);
+      const centerLaunch = window.setTimeout(() => launchFirework(.5), 360);
+      const rightLaunch = window.setTimeout(() => launchFirework(.82), 720);
+      const interval = window.setInterval(launch, 620);
+      const stopTimer = window.setTimeout(() => window.clearInterval(interval), duration);
+      messageTimers.push(centerLaunch, rightLaunch, interval, stopTimer);
+      return duration;
+    }
+
     function burst(count = 130) {
       for (let index = 0; index < count; index += 1) {
         particles.push(makeConfetti({ burst: true }));
@@ -1904,28 +1953,78 @@
       lastTime = now;
       ctx.clearRect(0, 0, width, height);
 
+      const newParticles = [];
       particles = particles.filter((piece) => {
         piece.previousX = piece.x;
         piece.previousY = piece.y;
         piece.x += piece.velocityX * delta;
         piece.y += piece.velocityY * delta;
-        piece.life -= .0017 * delta;
+        piece.life -= (piece.decay || .0017) * delta;
 
         piece.rotation += piece.spin * delta;
-        piece.velocityY += .012 * delta;
+        piece.velocityY += (piece.gravity || .012) * delta;
+        if (piece.type !== "rocket") {
+          piece.velocityX *= .992;
+          piece.velocityY *= .994;
+        }
 
         ctx.save();
         ctx.globalAlpha = Math.max(0, Math.min(1, piece.life));
-        ctx.translate(piece.x, piece.y);
-        ctx.rotate(piece.rotation);
-        ctx.fillStyle = piece.color;
-        ctx.fillRect(-piece.size / 2, -piece.size / 2, piece.size, piece.size * .58);
+        if (piece.type === "rocket") {
+          ctx.globalCompositeOperation = "lighter";
+          ctx.strokeStyle = piece.color;
+          ctx.lineWidth = piece.size;
+          ctx.lineCap = "round";
+          ctx.shadowBlur = 16;
+          ctx.shadowColor = piece.color;
+          ctx.beginPath();
+          ctx.moveTo(piece.previousX, piece.previousY);
+          ctx.lineTo(piece.x, piece.y);
+          ctx.stroke();
+          ctx.fillStyle = "#fff8cf";
+          ctx.beginPath();
+          ctx.arc(piece.x, piece.y, 2.4, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (piece.type === "spark") {
+          ctx.globalCompositeOperation = "lighter";
+          ctx.strokeStyle = piece.color;
+          ctx.lineWidth = piece.size;
+          ctx.lineCap = "round";
+          ctx.shadowBlur = 14;
+          ctx.shadowColor = piece.color;
+          ctx.beginPath();
+          ctx.moveTo(piece.previousX, piece.previousY);
+          ctx.lineTo(piece.x, piece.y);
+          ctx.stroke();
+        } else if (piece.type === "ember") {
+          ctx.globalCompositeOperation = "lighter";
+          ctx.fillStyle = piece.color;
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = piece.color;
+          ctx.beginPath();
+          ctx.arc(piece.x, piece.y, piece.size, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.translate(piece.x, piece.y);
+          ctx.rotate(piece.rotation);
+          ctx.fillStyle = piece.color;
+          ctx.fillRect(-piece.size / 2, -piece.size / 2, piece.size, piece.size * .58);
+        }
         ctx.restore();
+
+        if (piece.type === "rocket" && (piece.y <= piece.targetY || piece.velocityY >= -1.2)) {
+          explodeFirework(piece.x, piece.y, piece.color, newParticles);
+          return false;
+        }
 
         return piece.y < height + 30 && piece.life > 0;
       });
 
-      const maxParticles = useMobileEffects() ? 90 : 260;
+      if (newParticles.length > 0) {
+        particles.push(...newParticles);
+      }
+
+      const maxParticles = 760;
       if (particles.length > maxParticles) {
         particles = particles.slice(-maxParticles);
       }
@@ -1991,8 +2090,8 @@
       window.setTimeout(() => {
         candlesButton.hidden = false;
         candlesButton.focus();
-      }, 1250);
-      window.setTimeout(() => burst(24), 620);
+      }, 1850);
+      window.setTimeout(() => burst(24), 880);
       prepareBirthdaySong();
       wish.textContent = "Aytən, arzunu tut və şamları üfür.";
     }
@@ -2008,44 +2107,17 @@
       candlesButton.hidden = true;
     }
 
-    function writeFireworkMessage() {
+    function playFireworkMoment() {
       clearMessageTimers();
-      fireworkMessage.textContent = "";
-      fireworkMessage.classList.remove("show");
-      void fireworkMessage.offsetWidth;
-
-      const letters = [...celebrationText].map((letter) => {
-        const span = document.createElement("span");
-        span.innerHTML = letter === " " ? "&nbsp;" : letter;
-        fireworkMessage.appendChild(span);
-        return { span, letter };
-      });
-
-      fireworkMessage.classList.add("show");
-      const letterDelay = useMobileEffects() ? 28 : 42;
-      const writingDuration = letters.length * letterDelay;
-      const totalDuration = writingDuration + 1200;
-
-      let letterIndex = 0;
-      const writingTimer = window.setInterval(() => {
-        if (letterIndex >= letters.length) {
-          window.clearInterval(writingTimer);
-          return;
-        }
-
-        letters[letterIndex].span.classList.add("visible");
-        letterIndex += 1;
-      }, letterDelay);
-      messageTimers.push(writingTimer);
+      const fireworkDuration = startLightFireworks(5700);
 
       const hideTimer = window.setTimeout(() => {
-        fireworkMessage.classList.remove("show");
         const surpriseTimer = window.setTimeout(revealCakeSurprise, 380);
         messageTimers.push(surpriseTimer);
-      }, totalDuration + 2000);
+      }, fireworkDuration + 650);
       messageTimers.push(hideTimer);
 
-      return writingDuration;
+      return fireworkDuration;
     }
 
     function blowCandles() {
@@ -2061,16 +2133,16 @@
       void document.body.offsetWidth;
       document.body.classList.add("candles-blown");
       candles.forEach((candle, index) => {
-        window.setTimeout(() => candle.classList.add("blown"), index * 120);
+        window.setTimeout(() => candle.classList.add("blown"), index * 260);
       });
       wish.textContent = "Arzun ürəyində işıq kimi qalsın.";
       window.setTimeout(() => {
-        const writingDuration = writeFireworkMessage();
+        const fireworkDuration = playFireworkMoment();
         window.setTimeout(() => {
           candles.forEach((candle) => candle.classList.remove("blown"));
           document.body.classList.remove("candles-blown");
           wish.textContent = "Qoy hər yeni səhər üzünə gülüş gətirsin.";
-        }, writingDuration + 450);
+        }, fireworkDuration + 650);
 
         const fallbackTimer = window.setTimeout(() => {
           if (document.body.classList.contains("surprise-show") || !candlesButton.disabled) {
@@ -2081,9 +2153,9 @@
           document.body.classList.remove("candles-blown");
           wish.textContent = "Qoy hər yeni səhər üzünə gülüş gətirsin.";
           candlesButton.disabled = false;
-        }, writingDuration + 6500);
+        }, fireworkDuration + 4500);
         messageTimers.push(fallbackTimer);
-      }, 1250);
+      }, 2300);
     }
 
     window.addEventListener("resize", resize);
